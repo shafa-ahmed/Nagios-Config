@@ -48,3 +48,18 @@ cd nagios-plugins-2.3.3
 make
 make install
 
+
+#To make nagios on
+chkconfig nagios on
+
+#To check, everything goes good or not(FINAL STAGE)
+/usr/local/nagios/bin/nagios -v /usr/local/nagios/etc/nagios.cfg
+
+
+systemctl restart nagios
+systemctl enable nagios
+systemctl status  nagios
+systemctl restart httpd
+systemctl enable httpd
+systemctl status httpd
+
