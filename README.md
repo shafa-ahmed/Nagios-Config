@@ -6,3 +6,12 @@ yum install php
 yum install httpd
 yum install gcc glibc glibc-common
 yum install gd gd-devel
+
+useradd -m nagios
+passwd nagios
+groupadd nagioscmd
+usermod -a -G nagioscmd nagios
+usermod -a -G nagioscmd apache
+mkdir ~/downloads
+cd ~/downloads
+	
