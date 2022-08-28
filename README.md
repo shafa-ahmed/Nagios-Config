@@ -7,7 +7,7 @@ yum install httpd
 yum install gcc glibc glibc-common
 yum install gd gd-devel
 
-#Add user and group and make a directory
+#Add users, group and make a directory
 useradd -m nagios
 passwd nagios
 groupadd nagioscmd
@@ -16,6 +16,35 @@ usermod -a -G nagioscmd apache
 mkdir ~/downloads
 cd ~/downloads
 
-#install pluggins
+#install Packages and pluggins
 wget http://prdownloads.sourceforge.net/sourceforge/nagios/nagios-4.4.6.tar.gz
 wget http://nagios-plugins.org/download/nagios-plugins-2.3.3.tar.gz
+
+#Extract the packages and configure it
+tar zxvf nagios-4.4.6.tar.gz
+cd nagios-4.4.6
+./configure --with-command-group=nagioscmd
+
+#Compilation of Packages
+make all
+make install
+make install-init
+make install-config
+make install-commandmode
+
+
+make install-webconf
+
+#Creating user and password for the Nagios Console
+htpasswd -c /usr/local/nagios/etc/htpasswd.users nagiosadmin
+
+systemctl restart httpd
+systemctl restart httpd.service
+
+#Extract the pluggins, configure it and also compilation of Pluggins
+tar zxvf nagios-plugins-2.3.3.tar.gz
+cd nagios-plugins-2.3.3
+./configure --with-nagios-user=nagios --with-nagios-group=nagios
+make
+make install
+
